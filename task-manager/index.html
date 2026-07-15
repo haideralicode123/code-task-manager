@@ -4,15 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Code Task Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: "class",
       theme: {
         extend: {
+          fontFamily: {
+            display: ["Syne", "system-ui", "sans-serif"],
+            sans: ["DM Sans", "system-ui", "sans-serif"],
+          },
           colors: {
-            board: { DEFAULT: "#f3f4f6", dark: "#0f1419" },
-            column: { DEFAULT: "#ebecf0", dark: "#1a2332" },
+            board: { DEFAULT: "#f0f2f5", dark: "#0c0f14" },
+            column: { DEFAULT: "#e4e8ee", dark: "#151b24" },
+            accent: { DEFAULT: "#0d9488", soft: "#14b8a6" },
           },
         },
       },
@@ -20,43 +28,44 @@
   </script>
   <link rel="stylesheet" href="styles/custom.css" />
 </head>
-<body class="min-h-screen bg-board text-slate-800 antialiased dark:bg-board-dark dark:text-slate-100">
+<body class="min-h-screen bg-board font-sans text-slate-800 antialiased dark:bg-board-dark dark:text-slate-100">
 
   <!-- ========== AUTH SCREEN ========== -->
-  <div id="auth-screen" class="flex min-h-screen items-center justify-center px-4 py-10">
-    <div class="w-full max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900">
-      <div class="mb-6 text-center">
-        <h1 class="text-2xl font-semibold text-slate-900 dark:text-white">Code Task Manager</h1>
-        <p id="auth-subtitle" class="mt-1 text-sm text-slate-500 dark:text-slate-400">Sign in to save your board, or try Guest mode</p>
+  <div id="auth-screen" class="auth-shell flex min-h-screen items-center justify-center px-4 py-10">
+    <div class="auth-card w-full max-w-md rounded-2xl border border-slate-200/80 bg-white/95 p-7 shadow-xl backdrop-blur dark:border-slate-700/80 dark:bg-slate-900/95">
+      <div class="mb-7 text-center">
+        <p class="mb-2 font-display text-xs font-bold uppercase tracking-[0.18em] text-accent">Kanban</p>
+        <h1 class="font-display text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">Code Task Manager</h1>
+        <p id="auth-subtitle" class="mt-2 text-sm text-slate-500 dark:text-slate-400">Sign in to save your board, or try Guest mode</p>
       </div>
 
-      <div id="auth-tabs" class="mb-4 flex rounded-lg border border-slate-200 p-1 dark:border-slate-600">
-        <button type="button" id="tab-login" class="auth-tab flex-1 rounded-md px-3 py-2 text-sm font-medium is-active" data-tab="login">Login</button>
-        <button type="button" id="tab-register" class="auth-tab flex-1 rounded-md px-3 py-2 text-sm font-medium" data-tab="register">Sign up</button>
+      <div id="auth-tabs" class="mb-5 flex rounded-xl border border-slate-200 bg-slate-50 p-1 dark:border-slate-600 dark:bg-slate-800/80">
+        <button type="button" id="tab-login" class="auth-tab flex-1 rounded-lg px-3 py-2.5 text-sm font-semibold is-active" data-tab="login">Login</button>
+        <button type="button" id="tab-register" class="auth-tab flex-1 rounded-lg px-3 py-2.5 text-sm font-semibold" data-tab="register">Sign up</button>
       </div>
 
-      <p id="auth-error" class="mb-3 hidden rounded-md bg-rose-50 px-3 py-2 text-sm text-rose-700 dark:bg-rose-950/50 dark:text-rose-300" role="alert"></p>
-      <p id="auth-success" class="mb-3 hidden rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300" role="status"></p>
+      <p id="auth-error" class="mb-3 hidden rounded-lg bg-rose-50 px-3 py-2.5 text-sm text-rose-700 dark:bg-rose-950/50 dark:text-rose-300" role="alert"></p>
+      <p id="auth-success" class="mb-3 hidden rounded-lg bg-emerald-50 px-3 py-2.5 text-sm text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300" role="status"></p>
 
-      <form id="auth-form" class="space-y-3" novalidate>
+      <form id="auth-form" class="space-y-3.5" novalidate>
         <div>
-          <label for="auth-username" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Username</label>
-          <input id="auth-username" name="username" autocomplete="username" required minlength="3" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100" placeholder="e.g. ali_khan" />
+          <label for="auth-username" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">Username</label>
+          <input id="auth-username" name="username" autocomplete="username" required minlength="3" class="field" placeholder="e.g. ali_khan" />
         </div>
 
         <div id="auth-password-wrap">
-          <label for="auth-password" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Password</label>
-          <input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="4" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100" placeholder="••••••••" />
+          <label for="auth-password" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">Password</label>
+          <input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="4" class="field" placeholder="••••••••" />
         </div>
 
         <div id="auth-confirm-wrap" class="hidden">
-          <label for="auth-confirm" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Confirm password</label>
-          <input id="auth-confirm" name="confirm" type="password" autocomplete="new-password" minlength="4" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100" placeholder="••••••••" />
+          <label for="auth-confirm" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">Confirm password</label>
+          <input id="auth-confirm" name="confirm" type="password" autocomplete="new-password" minlength="4" class="field" placeholder="••••••••" />
         </div>
 
         <div id="auth-question-wrap" class="hidden">
-          <label for="auth-question" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Security question</label>
-          <select id="auth-question" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100">
+          <label for="auth-question" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">Security question</label>
+          <select id="auth-question" class="field">
             <option value="pet">What was your first pet's name?</option>
             <option value="city">In which city were you born?</option>
             <option value="school">What was your primary school name?</option>
@@ -65,16 +74,16 @@
         </div>
 
         <div id="auth-answer-wrap" class="hidden">
-          <label for="auth-answer" id="auth-answer-label" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Security answer</label>
+          <label for="auth-answer" id="auth-answer-label" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">Security answer</label>
           <p id="auth-recovery-q" class="mb-1 hidden text-xs text-slate-500 dark:text-slate-400"></p>
-          <input id="auth-answer" name="answer" type="text" autocomplete="off" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100" placeholder="Your answer" />
+          <input id="auth-answer" name="answer" type="text" autocomplete="off" class="field" placeholder="Your answer" />
         </div>
 
         <div id="forgot-link-wrap" class="flex justify-end">
-          <button type="button" id="forgot-link" class="text-sm font-medium text-sky-600 hover:text-sky-700 dark:text-sky-400">Forgot password?</button>
+          <button type="button" id="forgot-link" class="text-sm font-semibold text-accent hover:text-teal-700 dark:text-teal-400">Forgot password?</button>
         </div>
 
-        <button type="submit" id="auth-submit" class="w-full rounded-md bg-sky-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+        <button type="submit" id="auth-submit" class="btn-primary w-full">
           Login
         </button>
 
@@ -84,32 +93,32 @@
       </form>
 
       <div id="guest-section">
-        <div class="relative my-5">
+        <div class="relative my-6">
           <div class="absolute inset-0 flex items-center" aria-hidden="true"><div class="w-full border-t border-slate-200 dark:border-slate-700"></div></div>
-          <div class="relative flex justify-center text-xs"><span class="bg-white px-2 text-slate-400 dark:bg-slate-900">or</span></div>
+          <div class="relative flex justify-center text-xs"><span class="bg-white px-2 text-slate-400 dark:bg-slate-900/95">or</span></div>
         </div>
 
-        <button type="button" id="guest-btn" class="w-full rounded-md border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700">
+        <button type="button" id="guest-btn" class="btn w-full font-semibold">
           Continue as Guest
         </button>
-        <p class="mt-2 text-center text-xs text-slate-500 dark:text-slate-400">Guest mode lets you explore the board with sample tasks. Sign up to keep your own empty board.</p>
+        <p class="mt-2.5 text-center text-xs leading-relaxed text-slate-500 dark:text-slate-400">Guest mode lets you explore with sample tasks. Sign up for your own empty board.</p>
       </div>
     </div>
   </div>
 
-  <!-- ========== APP (hidden until logged in / guest) ========== -->
+  <!-- ========== APP ========== -->
   <div id="app" class="hidden">
     <a href="#board" class="skip-link">Skip to board</a>
 
-    <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-700 dark:bg-slate-900/95">
-      <div class="mx-auto flex max-w-[1200px] flex-col gap-3 px-3 py-3 sm:px-4 md:flex-row md:flex-wrap md:items-center md:gap-2">
+    <header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 backdrop-blur-md dark:border-slate-700/80 dark:bg-slate-950/90">
+      <div class="mx-auto flex max-w-[1200px] flex-col gap-3 px-3 py-3.5 sm:px-4 md:flex-row md:flex-wrap md:items-center md:gap-2">
         <div class="flex items-start justify-between gap-2 md:mr-auto md:block">
           <div>
-            <h1 class="text-base font-semibold text-slate-900 sm:text-lg dark:text-white">Code Task Manager</h1>
-            <p id="user-badge" class="text-xs text-slate-500 dark:text-slate-400"></p>
+            <h1 class="font-display text-lg font-extrabold tracking-tight text-slate-900 sm:text-xl dark:text-white">Code Task Manager</h1>
+            <p id="user-badge" class="text-xs font-medium text-slate-500 dark:text-slate-400"></p>
           </div>
           <div class="flex shrink-0 gap-2 md:hidden">
-            <button type="button" id="add-task-btn-mobile" class="rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500">+ Task</button>
+            <button type="button" id="add-task-btn-mobile" class="btn-primary px-3 py-2 text-sm">+ Task</button>
             <button type="button" id="logout-btn-mobile" class="btn">Logout</button>
           </div>
         </div>
@@ -120,11 +129,11 @@
             id="search-input"
             type="search"
             placeholder="Search…"
-            class="min-w-0 flex-1 rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-500/30 sm:w-44 sm:flex-none sm:text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400"
+            class="field min-w-0 flex-1 sm:w-44 sm:flex-none"
           />
 
           <label class="sr-only" for="priority-filter">Priority</label>
-          <select id="priority-filter" class="min-w-0 flex-1 rounded-md border border-slate-300 bg-white px-2 py-2 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/30 sm:flex-none sm:text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100">
+          <select id="priority-filter" class="field min-w-0 flex-1 sm:flex-none">
             <option value="all">All priorities</option>
             <option value="low">Low</option>
             <option value="medium">Medium</option>
@@ -132,7 +141,7 @@
           </select>
 
           <label class="sr-only" for="status-filter">Status</label>
-          <select id="status-filter" class="min-w-0 flex-1 rounded-md border border-slate-300 bg-white px-2 py-2 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/30 sm:flex-none sm:text-sm dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100">
+          <select id="status-filter" class="field min-w-0 flex-1 sm:flex-none">
             <option value="all">All statuses</option>
             <option value="todo">Todo</option>
             <option value="in-progress">In Progress</option>
@@ -146,7 +155,7 @@
             Import
             <input id="import-input" type="file" accept=".json,application/json" class="sr-only" />
           </label>
-          <button type="button" id="add-task-btn" class="hidden rounded-md bg-sky-600 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 md:inline-flex">
+          <button type="button" id="add-task-btn" class="btn-primary hidden px-3 py-2 text-sm md:inline-flex">
             + Add Task
           </button>
           <button type="button" id="logout-btn" class="btn hidden md:inline-flex">Logout</button>
@@ -156,72 +165,72 @@
 
     <div id="live-region" class="sr-only" role="status" aria-live="polite"></div>
 
-    <div id="guest-banner" class="hidden border-b border-amber-200 bg-amber-50 px-4 py-2 text-center text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200">
+    <div id="guest-banner" class="hidden border-b border-amber-200/80 bg-amber-50/90 px-4 py-2.5 text-center text-sm text-amber-950 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200">
       You are in <strong>Guest mode</strong> — explore freely. Create an account to start with your own empty board.
     </div>
 
-    <main id="board" class="mx-auto max-w-[1200px] px-3 py-4 sm:px-4 sm:py-5" role="region" aria-label="Kanban board">
-      <div class="flex flex-col gap-3 sm:gap-4 md:flex-row md:items-start">
-        <section class="column w-full rounded-lg bg-column p-3 dark:bg-column-dark md:w-1/3" data-status="todo" aria-labelledby="col-todo">
-          <div class="mb-3 flex items-center gap-2">
-            <span class="h-2 w-2 rounded-full bg-slate-400" aria-hidden="true"></span>
-            <h2 id="col-todo" class="text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-300">Todo</h2>
-            <span data-count class="rounded-full bg-slate-200 px-2 py-0.5 text-xs font-semibold dark:bg-slate-700" aria-label="0 tasks">0</span>
-            <button type="button" class="ml-auto text-slate-500 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded" data-action="add-in-column" data-status="todo" aria-label="Add to Todo">+</button>
+    <main id="board" class="mx-auto max-w-[1200px] px-3 py-5 sm:px-4 sm:py-6" role="region" aria-label="Kanban board">
+      <div class="flex flex-col gap-4 md:flex-row md:items-start">
+        <section class="column w-full rounded-2xl bg-column p-3.5 dark:bg-column-dark md:w-1/3" data-status="todo" aria-labelledby="col-todo">
+          <div class="mb-3.5 flex items-center gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-slate-400" aria-hidden="true"></span>
+            <h2 id="col-todo" class="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-600 dark:text-slate-300">Todo</h2>
+            <span data-count class="rounded-md bg-slate-200/90 px-2 py-0.5 text-xs font-semibold dark:bg-slate-700" aria-label="0 tasks">0</span>
+            <button type="button" class="ml-auto rounded-lg px-1.5 text-lg leading-none text-slate-500 hover:bg-slate-200/80 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent/40 dark:hover:bg-slate-700" data-action="add-in-column" data-status="todo" aria-label="Add to Todo">+</button>
           </div>
-          <ul class="task-list flex min-h-[100px] flex-col gap-2" data-task-list role="list" aria-label="Todo tasks"></ul>
+          <ul class="task-list flex min-h-[100px] flex-col gap-2.5" data-task-list role="list" aria-label="Todo tasks"></ul>
         </section>
 
-        <section class="column w-full rounded-lg bg-column p-3 dark:bg-column-dark md:w-1/3" data-status="in-progress" aria-labelledby="col-progress">
-          <div class="mb-3 flex items-center gap-2">
-            <span class="h-2 w-2 rounded-full bg-violet-500" aria-hidden="true"></span>
-            <h2 id="col-progress" class="text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-300">In Progress</h2>
-            <span data-count class="rounded-full bg-violet-100 px-2 py-0.5 text-xs font-semibold text-violet-700 dark:bg-violet-900/40 dark:text-violet-300" aria-label="0 tasks">0</span>
-            <button type="button" class="ml-auto text-slate-500 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded" data-action="add-in-column" data-status="in-progress" aria-label="Add to In Progress">+</button>
+        <section class="column w-full rounded-2xl bg-column p-3.5 dark:bg-column-dark md:w-1/3" data-status="in-progress" aria-labelledby="col-progress">
+          <div class="mb-3.5 flex items-center gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true"></span>
+            <h2 id="col-progress" class="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-600 dark:text-slate-300">In Progress</h2>
+            <span data-count class="rounded-md bg-teal-100 px-2 py-0.5 text-xs font-semibold text-teal-800 dark:bg-teal-900/40 dark:text-teal-300" aria-label="0 tasks">0</span>
+            <button type="button" class="ml-auto rounded-lg px-1.5 text-lg leading-none text-slate-500 hover:bg-slate-200/80 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent/40 dark:hover:bg-slate-700" data-action="add-in-column" data-status="in-progress" aria-label="Add to In Progress">+</button>
           </div>
-          <ul class="task-list flex min-h-[100px] flex-col gap-2" data-task-list role="list" aria-label="In Progress tasks"></ul>
+          <ul class="task-list flex min-h-[100px] flex-col gap-2.5" data-task-list role="list" aria-label="In Progress tasks"></ul>
         </section>
 
-        <section class="column w-full rounded-lg bg-column p-3 dark:bg-column-dark md:w-1/3" data-status="done" aria-labelledby="col-done">
-          <div class="mb-3 flex items-center gap-2">
-            <span class="h-2 w-2 rounded-full bg-emerald-500" aria-hidden="true"></span>
-            <h2 id="col-done" class="text-xs font-bold uppercase tracking-wide text-slate-600 dark:text-slate-300">Done</h2>
-            <span data-count class="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300" aria-label="0 tasks">0</span>
-            <button type="button" class="ml-auto text-slate-500 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded" data-action="add-in-column" data-status="done" aria-label="Add to Done">+</button>
+        <section class="column w-full rounded-2xl bg-column p-3.5 dark:bg-column-dark md:w-1/3" data-status="done" aria-labelledby="col-done">
+          <div class="mb-3.5 flex items-center gap-2">
+            <span class="h-2.5 w-2.5 rounded-full bg-emerald-500" aria-hidden="true"></span>
+            <h2 id="col-done" class="text-[11px] font-bold uppercase tracking-[0.12em] text-slate-600 dark:text-slate-300">Done</h2>
+            <span data-count class="rounded-md bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300" aria-label="0 tasks">0</span>
+            <button type="button" class="ml-auto rounded-lg px-1.5 text-lg leading-none text-slate-500 hover:bg-slate-200/80 hover:text-slate-800 focus:outline-none focus:ring-2 focus:ring-accent/40 dark:hover:bg-slate-700" data-action="add-in-column" data-status="done" aria-label="Add to Done">+</button>
           </div>
-          <ul class="task-list flex min-h-[100px] flex-col gap-2" data-task-list role="list" aria-label="Done tasks"></ul>
+          <ul class="task-list flex min-h-[100px] flex-col gap-2.5" data-task-list role="list" aria-label="Done tasks"></ul>
         </section>
       </div>
     </main>
   </div>
 
-  <dialog id="task-modal" class="w-[min(100%-1.5rem,26rem)] max-h-[90dvh] overflow-y-auto rounded-lg border border-slate-200 bg-white p-0 text-slate-800 shadow-xl dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100" aria-labelledby="modal-title">
-    <form id="task-form" class="p-4 sm:p-5" novalidate>
-      <div class="mb-4 flex items-center justify-between">
-        <h2 id="modal-title" class="text-lg font-semibold text-slate-900 dark:text-white">New Task</h2>
-        <button type="button" id="modal-close" class="rounded px-2 text-slate-400 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:hover:bg-slate-800" aria-label="Close">✕</button>
+  <dialog id="task-modal" class="w-[min(100%-1.5rem,26rem)] max-h-[90dvh] overflow-y-auto rounded-2xl border border-slate-200 bg-white p-0 font-sans text-slate-800 shadow-2xl dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100" aria-labelledby="modal-title">
+    <form id="task-form" class="p-5 sm:p-6" novalidate>
+      <div class="mb-5 flex items-center justify-between">
+        <h2 id="modal-title" class="font-display text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">New Task</h2>
+        <button type="button" id="modal-close" class="rounded-lg px-2.5 py-1 text-slate-400 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-accent/40 dark:hover:bg-slate-800" aria-label="Close">✕</button>
       </div>
 
       <input type="hidden" id="task-id" value="" />
 
-      <div class="space-y-3">
+      <div class="space-y-3.5">
         <div>
-          <label for="task-title" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Title *</label>
-          <input id="task-title" type="text" required maxlength="120" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400" aria-describedby="title-error" />
+          <label for="task-title" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">Title *</label>
+          <input id="task-title" type="text" required maxlength="120" class="field" aria-describedby="title-error" />
           <p id="title-error" class="mt-1 hidden text-xs text-rose-600 dark:text-rose-400" role="alert"></p>
         </div>
         <div>
-          <label for="task-description" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Description</label>
-          <textarea id="task-description" rows="3" maxlength="1000" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-400"></textarea>
+          <label for="task-description" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">Description</label>
+          <textarea id="task-description" rows="3" maxlength="1000" class="field"></textarea>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label for="task-due" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Due Date</label>
-            <input id="task-due" type="date" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:[color-scheme:dark]" />
+            <label for="task-due" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">Due Date</label>
+            <input id="task-due" type="date" class="field dark:[color-scheme:dark]" />
           </div>
           <div>
-            <label for="task-priority" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Priority</label>
-            <select id="task-priority" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100">
+            <label for="task-priority" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">Priority</label>
+            <select id="task-priority" class="field">
               <option value="low">Low</option>
               <option value="medium" selected>Medium</option>
               <option value="high">High</option>
@@ -229,8 +238,8 @@
           </div>
         </div>
         <div>
-          <label for="task-status" class="mb-1 block text-sm font-medium text-slate-700 dark:text-slate-200">Status</label>
-          <select id="task-status" class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-500/30 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100">
+          <label for="task-status" class="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">Status</label>
+          <select id="task-status" class="field">
             <option value="todo">Todo</option>
             <option value="in-progress">In Progress</option>
             <option value="done">Done</option>
@@ -238,9 +247,9 @@
         </div>
       </div>
 
-      <div class="mt-5 flex justify-end gap-2">
+      <div class="mt-6 flex justify-end gap-2">
         <button type="button" id="modal-cancel" class="btn">Cancel</button>
-        <button type="submit" class="rounded-md bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500">Save</button>
+        <button type="submit" class="btn-primary px-4 py-2 text-sm">Save</button>
       </div>
     </form>
   </dialog>

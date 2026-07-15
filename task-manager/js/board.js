@@ -11,7 +11,7 @@ const PRIORITY_CLASS = {
 export function createCard(task) {
   const li = document.createElement("li");
   li.className =
-    "task-card group relative rounded-md border border-slate-200 bg-white p-3 shadow-sm outline-none hover:shadow focus-visible:ring-2 focus-visible:ring-sky-500 dark:border-slate-600 dark:bg-slate-800";
+    "task-card group relative rounded-xl border border-slate-200/80 bg-white p-3.5 outline-none hover:border-teal-300/60 focus-visible:ring-2 focus-visible:ring-teal-500/40 dark:border-slate-600/80 dark:bg-slate-800/90 dark:hover:border-teal-600/50";
   li.draggable = true;
   li.dataset.taskId = task.id;
   li.tabIndex = 0;
@@ -62,7 +62,7 @@ export function createCard(task) {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className =
-      "rounded px-1.5 py-0.5 text-[10px] font-medium text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:hover:bg-slate-700";
+      "rounded px-1.5 py-0.5 text-[10px] font-medium text-slate-500 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-teal-500/50 dark:hover:bg-slate-700";
     btn.dataset.action = action;
     btn.dataset.taskId = task.id;
     btn.setAttribute("aria-label", label);
@@ -80,7 +80,7 @@ function emptySlot(status) {
     "flex justify-center rounded-md border border-dashed border-slate-300 py-8 dark:border-slate-600";
   const btn = document.createElement("button");
   btn.type = "button";
-  btn.className = "text-sm text-slate-500 hover:text-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded px-2";
+  btn.className = "text-sm text-slate-500 hover:text-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-500/50 rounded px-2";
   btn.dataset.action = "add-in-column";
   btn.dataset.status = status;
   btn.textContent = "+ Add Task";
